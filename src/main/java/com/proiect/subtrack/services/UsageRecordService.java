@@ -1,0 +1,7 @@
+package com.proiect.subtrack.services;
+
+import org.springframework.stereotype.Service;
+
+
+public class UsageRecordService {
+}
