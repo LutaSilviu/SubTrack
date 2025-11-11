@@ -1,50 +1,54 @@
 package com.proiect.subtrack.domain.entities;
 
 import com.proiect.subtrack.utils.InvoiceStatus;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDate;
 
-@Data
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "invoices")
+@SequenceGenerator(name = "invoice_id_seq", sequenceName = "invoice_id_seq", allocationSize = 1)
 public class InvoiceEntity {
 
-
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE , generator = "invoice_id_seq")
-    private Long invoice_id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "invoice_id_seq")
+    @Column(name = "invoice_id")
+    private Long invoiceId;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "subscription_id")
     private SubscriptionEntity subscriptionEntity;
 
-    private Double base_price;
+    @Column(name = "base_price")
+    private Double basePrice;
 
-    private Double overage_cost;
+    @Column(name = "overage_cost")
+    private Double overageCost;
 
+    @Column(name = "total")
     private Double total;
 
-    private Date created_at;
+    @Column(name = "created_at")
+    private LocalDate createdAt;
 
-    private Date period_start;
+    @Column(name = "period_start")
+    private LocalDate periodStart;
 
-    private Date period_stop;
+    @Column(name = "period_stop")
+    private LocalDate periodStop;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
     private InvoiceStatus status;
 
 }

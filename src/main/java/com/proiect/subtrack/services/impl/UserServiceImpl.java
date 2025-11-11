@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
                entity -> {
                    Optional.ofNullable(userEntity.getName()).ifPresent(entity :: setName);
                    Optional.ofNullable(userEntity.getAddress()).ifPresent(entity :: setAddress);
-                   Optional.ofNullable(userEntity.getDate_of_birth()).ifPresent(entity :: setDate_of_birth);
+                   Optional.ofNullable(userEntity.getDateOfBirth()).ifPresent(entity :: setDateOfBirth);
                    return save(entity);
                }
        ).orElseThrow(() -> new RuntimeException("No existing user found"));

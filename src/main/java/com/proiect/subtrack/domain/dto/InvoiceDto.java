@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -16,21 +17,21 @@ import java.util.Date;
 public class InvoiceDto {
 
 
-    private Long invoice_id;
+    private Long invoiceId;
 
     private SubscriptionDto subscriptionEntity;
 
-    private Double base_price;
+    private Double basePrice;
 
-    private Double overage_cost;
+    private Double overageCost;
 
     private Double total;
 
-    private Date created_at;
+    private LocalDate createdAt;
 
-    private Date period_start;
+    private LocalDate periodStart;
 
-    private Date period_stop;
+    private Date periodStop;
 
     private InvoiceStatus status;
 

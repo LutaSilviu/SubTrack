@@ -4,7 +4,9 @@ import com.proiect.subtrack.domain.dto.SubscriptionDto;
 import com.proiect.subtrack.domain.entities.SubscriptionEntity;
 import com.proiect.subtrack.mappers.Mapper;
 import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Component;
 
+@Component
 public class SubscriptionMapperImpl implements Mapper<SubscriptionEntity, SubscriptionDto> {
 
     private final ModelMapper modelMapper;

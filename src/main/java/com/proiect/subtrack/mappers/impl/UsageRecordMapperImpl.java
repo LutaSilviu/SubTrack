@@ -4,7 +4,9 @@ import com.proiect.subtrack.domain.dto.UsageRecordDto;
 import com.proiect.subtrack.domain.entities.UsageRecordEntity;
 import com.proiect.subtrack.mappers.Mapper;
 import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Component;
 
+@Component
 public class UsageRecordMapperImpl implements Mapper<UsageRecordEntity, UsageRecordDto> {
 
     private final ModelMapper modelMapper;

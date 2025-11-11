@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ro">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Subscriții curente</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}"/>
+</head>
+<body class="container py-4">
+<h1 class="mb-3">Subscriții curente</h1>
+
+<table class="table table-sm table-striped align-middle">
+    <thead>
+    <tr>
+        <th>Utilizator</th>
+        <th>Email</th>
+        <th>Data nașterii</th>
+        <th>Telefon</th>
+        <th>Plan</th>
+        <th>Preț</th>
+        <th>GB incluși</th>
+        <th>Overage</th>
+        <th>Status</th>
+        <th>Creat</th>
+        <th>Ciclu start</th>
+        <th>Ciclu stop</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="r : ${rows}">
+        <td th:text="${r.user_name}">-</td>
+        <td th:text="${r.email}">-</td>
+        <td th:text="${#temporals.format(r.date_of_birth, 'yyyy-MM-dd')}">-</td>
+        <td th:text="${r.phone_number}">-</td>
+        <td th:text="${r.plan_name}">-</td>
+        <td th:text="${r.price}">-</td>
+        <td th:text="${r.included_gb}">-</td>
+        <td th:text="${r.overage_price}">-</td>
+        <td><span class="badge text-bg-primary" th:text="${r.status}">ACTIVE</span></td>
+        <td th:text="${#temporals.format(r.created_at, 'yyyy-MM-dd')}">-</td>
+        <td th:text="${#temporals.format(r.current_cycle_start, 'yyyy-MM-dd')}">-</td>
+        <td th:text="${#temporals.format(r.current_cycle_stop, 'yyyy-MM-dd')}">-</td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

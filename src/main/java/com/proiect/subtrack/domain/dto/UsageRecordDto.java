@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -13,12 +14,12 @@ import java.util.Date;
 @NoArgsConstructor
 public class UsageRecordDto {
 
-    private Long record_id;
+    private Long recordId;
 
     private SubscriptionDto subscriptionDto;
 
-    private Double amount_gb;
+    private Double amountGb;
 
-    private Date occurred_at;
+    private LocalDate occurredAt;
 
 }

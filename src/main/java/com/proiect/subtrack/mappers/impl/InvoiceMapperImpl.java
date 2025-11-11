@@ -4,7 +4,9 @@ import com.proiect.subtrack.domain.dto.InvoiceDto;
 import com.proiect.subtrack.domain.entities.InvoiceEntity;
 import com.proiect.subtrack.mappers.Mapper;
 import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Component;
 
+@Component
 public class InvoiceMapperImpl implements Mapper<InvoiceEntity, InvoiceDto> {
 
     private final ModelMapper modelMapper;

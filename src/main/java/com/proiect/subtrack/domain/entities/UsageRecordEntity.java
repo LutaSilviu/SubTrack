@@ -1,38 +1,37 @@
 package com.proiect.subtrack.domain.entities;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDate;
 
-@Data
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "usage_records")
+@SequenceGenerator(name = "records_id_seq", sequenceName = "records_id_seq", allocationSize = 1)
 public class UsageRecordEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE , generator = "records_id_seq")
-    private Long record_id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "records_id_seq")
+    @Column(name = "record_id")
+    private Long recordId;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "subscription_id")
     private SubscriptionEntity subscriptionEntity;
 
-    private Double amount_gb;
+    @Column(name = "amount_gb")
+    private Double amountGb;
 
-    private Date occurred_at;
+    @Column(name = "occurred_at")
+    private LocalDate occurredAt;
 
 }
