@@ -1,25 +1,26 @@
 package com.proiect.subtrack.domain.dto;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.proiect.subtrack.utils.SubscriptionStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PlanDto {
+public class SubscriptionUserViewDto {
 
-    private Long planId;
+    private String userName;
 
-    private String name;
+    private String email;
+
+    private LocalDate dateOfBirth;
+
+    private String planName;
 
     private Double price;
 
@@ -27,7 +28,13 @@ public class PlanDto {
 
     private  Double overagePrice;
 
+    private SubscriptionStatus status;
+
     private LocalDate createdAt;
 
-    private boolean active;
+    private Integer phoneNumber;
+
+    private LocalDate currentCycleStart;
+
+    private LocalDate currentCycleStop;
 }

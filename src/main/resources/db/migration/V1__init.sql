@@ -1,0 +1,14 @@
+create sequence invoice_id_seq start with 1 increment by 50;
+create sequence plan_id_seq start with 1 increment by 50;
+create sequence records_id_seq start with 1 increment by 50;
+create sequence subscription_id_seq start with 1 increment by 50;
+create sequence user_id_seq start with 1 increment by 50;
+create table invoices (base_price float(53), created_at date, overage_cost float(53), period_start date, period_stop date, status smallint check (status between 0 and 2), total float(53), invoice_id bigint not null, subscription_id bigint, primary key (invoice_id));
+create table plans (active boolean not null, created_at date, included_gb integer, overage_price float(53), price float(53), plan_id bigint not null, name varchar(255), primary key (plan_id));
+create table subscriptions (current_cycle_start date, current_cycle_stop date, phone_number integer, status smallint check (status between 0 and 3), created_at timestamp(6), plan_id bigint, subscription_id bigint not null, user_id bigint, primary key (subscription_id));
+create table usage_records (amount_gb float(53), occurred_at date, record_id bigint not null, subscription_id bigint, primary key (record_id));
+create table users (date_of_birth date, user_id bigint not null, address varchar(255), email varchar(255), name varchar(255), primary key (user_id));
+alter table if exists invoices add constraint FKekyltlmwbronx3ubn5it0346p foreign key (subscription_id) references subscriptions;
+alter table if exists subscriptions add constraint FKb1uf5qnxi6uj95se8ykydntl1 foreign key (plan_id) references plans;
+alter table if exists subscriptions add constraint FKhro52ohfqfbay9774bev0qinr foreign key (user_id) references users;
+alter table if exists usage_records add constraint FKsf40cpjs77r0uhmiq6m6si3hy foreign key (subscription_id) references subscriptions;

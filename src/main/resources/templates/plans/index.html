@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Plans</title></head>
+<body>
+<h1>Plans</h1>
+
+<a th:href="@{/plans/create}">Add New Plan</a>
+<hr/>
+
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Created at</th>
+        <th>Included GB</th>
+        <th>Active</th>
+
+        <!--        <th>Actions</th>-->
+    </tr>
+    <tr th:each="p : ${plans}">
+        <td th:text="${p.plan_id}"></td>
+        <td th:text="${p.name}"></td>
+        <td th:text="${p.price}"></td>
+        <td th:text="${p.created_at}"></td>
+        <td th:text="${p.included_gb}"></td>
+        <td th:text="${p.active}"></td>
+<!--        <td>-->
+<!--            <a th:href="@{/plans/{id}(id=${p.plan_id})}">Details</a> |-->
+<!--            <a th:href="@{/plans/edit/{id}(id=${p.plan_id})}">Edit</a> |-->
+<!--            <a th:href="@{/plans/delete/{id}(id=${p.plan_id})}">Delete</a>-->
+<!--        </td>-->
+    </tr>
+</table>
+</body>
+</html>

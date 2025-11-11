@@ -1,38 +1,44 @@
 package com.proiect.subtrack.domain.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDate;
 
-@Data
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "plans")
+@SequenceGenerator(name = "plan_id_seq", sequenceName = "plan_id_seq", allocationSize = 1)
 public class PlanEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE , generator = "plan_id_seq")
-    private Long plan_id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "plan_id_seq")
+    @Column(name = "plan_id")
+    private Long planId;
 
+    @Column(name = "name")
     private String name;
 
+    @Column(name = "price")
     private Double price;
 
-    private Integer included_gb;
+    @Column(name = "included_gb")
+    private Integer includedGb;
 
-    private  Double overage_price;
+    @Column(name = "overage_price")
+    private Double overagePrice;
 
-    private Date created_at;
+    @Column(name = "created_at")
+    private LocalDate createdAt;
 
-    private boolean is_active;
+    @Column(name = "active")
+    private boolean active;
 }

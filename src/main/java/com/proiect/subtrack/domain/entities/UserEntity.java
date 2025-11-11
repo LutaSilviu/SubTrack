@@ -1,33 +1,41 @@
 package com.proiect.subtrack.domain.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDate;
 
-@Data
+@Setter
+@Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "users")
+@SequenceGenerator(name = "user_id_seq", sequenceName = "user_id_seq", allocationSize = 1)
 public class UserEntity {
 
-
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE , generator = "user_id_seq")
-    private Long user_id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_seq")
+    @Column(name = "user_id")
+    private Long userId;
 
+    @Column(name = "name")
     private String name;
 
-    private Date date_of_birth;
+    @Column(name = "email")
+    private String email;
 
+    @Column(name = "date_of_birth")
+    private LocalDate dateOfBirth;
+
+    @Column(name = "address")
     private String address;
+
+    @Column(name = "password")
+    private String password;
 }
