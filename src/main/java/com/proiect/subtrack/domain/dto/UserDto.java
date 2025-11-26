@@ -20,11 +20,8 @@ public class UserDto {
 
     private String email;
 
-    private String passwordHash;
-
     private LocalDate dateOfBirth;
 
     private String address;
 
-    private String password;
 }

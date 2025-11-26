@@ -56,4 +56,11 @@ public class UserServiceImpl implements UserService {
                }
        ).orElseThrow(() -> new RuntimeException("No existing user found"));
     }
+
+    @Override
+    public Optional<UserEntity> getUserByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+
 }

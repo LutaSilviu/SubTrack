@@ -14,6 +14,8 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class SubscriptionUserViewDto {
 
+    private Long subscriptionId;
+
     private String userName;
 
     private String email;
@@ -32,7 +34,7 @@ public class SubscriptionUserViewDto {
 
     private LocalDate createdAt;
 
-    private Integer phoneNumber;
+    private String phoneNumber;
 
     private LocalDate currentCycleStart;
 

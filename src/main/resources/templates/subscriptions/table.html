@@ -2,45 +2,326 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="ro">
 <head>
     <meta charset="UTF-8"/>
-    <title>Subscriții curente</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Subscripții - SubTrack</title>
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"/>
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .main-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 2rem;
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+        }
+        .page-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+        .page-header h1 {
+            margin: 0;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .stats-card {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .table-container {
+            overflow-x: auto;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        .custom-table {
+            margin: 0;
+            background: white;
+        }
+        .custom-table thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .custom-table thead th {
+            border: none;
+            padding: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            user-select: none;
+            vertical-align: middle;
+            white-space: nowrap;
+            position: relative;
+        }
+        .custom-table thead th:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        .custom-table thead th.sortable::after {
+            content: ' ⇅';
+            opacity: 0.5;
+            font-size: 0.9em;
+        }
+        .custom-table tbody tr {
+            transition: all 0.2s;
+        }
+        .custom-table tbody tr:hover {
+            background-color: #f8f9ff;
+            transform: scale(1.01);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .custom-table tbody td {
+            padding: 1rem;
+            vertical-align: middle;
+        }
+        .status-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            display: inline-block;
+            min-width: 100px;
+            text-align: center;
+        }
+        .status-ACTIVE {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+        }
+        .status-SUSPENDED {
+            background: linear-gradient(135deg, #FFB75E 0%, #ED8F03 100%);
+            color: white;
+        }
+        .status-CANCELED {
+            background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
+            color: white;
+        }
+        .status-EXPIRED {
+            background: linear-gradient(135deg, #bdc3c7 0%, #2c3e50 100%);
+            color: white;
+        }
+        .action-form {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        .action-form select {
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            padding: 0.4rem 0.8rem;
+            font-size: 0.85rem;
+            min-width: 120px;
+        }
+        .action-form select:focus {
+            border-color: #764ba2;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+        .btn-update {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+            padding: 0.4rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-size: 0.85rem;
+        }
+        .btn-update:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        }
+        .search-box {
+            margin-bottom: 1.5rem;
+        }
+        .search-box input {
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+        }
+        .search-box input:focus {
+            border-color: #764ba2;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+    </style>
 </head>
-<body class="container py-4">
-<h1 class="mb-3">Subscriții curente</h1>
+<body>
+<div class="container">
+    <div class="main-container">
+        <div class="page-header">
+            <h1>
+                <i class="bi bi-card-checklist"></i>
+                Subscripții Active
+            </h1>
+            <p class="mb-0 mt-2">Gestionează și monitorizează toate subscripțiile tale</p>
+        </div>
 
-<table class="table table-sm table-striped align-middle">
-    <thead>
-    <tr>
-        <th>Utilizator</th>
-        <th>Email</th>
-        <th>Data nașterii</th>
-        <th>Telefon</th>
-        <th>Plan</th>
-        <th>Preț</th>
-        <th>GB incluși</th>
-        <th>Overage</th>
-        <th>Status</th>
-        <th>Creat</th>
-        <th>Ciclu start</th>
-        <th>Ciclu stop</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="r : ${rows}">
-        <td th:text="${r.user_name}">-</td>
-        <td th:text="${r.email}">-</td>
-        <td th:text="${#temporals.format(r.date_of_birth, 'yyyy-MM-dd')}">-</td>
-        <td th:text="${r.phone_number}">-</td>
-        <td th:text="${r.plan_name}">-</td>
-        <td th:text="${r.price}">-</td>
-        <td th:text="${r.included_gb}">-</td>
-        <td th:text="${r.overage_price}">-</td>
-        <td><span class="badge text-bg-primary" th:text="${r.status}">ACTIVE</span></td>
-        <td th:text="${#temporals.format(r.created_at, 'yyyy-MM-dd')}">-</td>
-        <td th:text="${#temporals.format(r.current_cycle_start, 'yyyy-MM-dd')}">-</td>
-        <td th:text="${#temporals.format(r.current_cycle_stop, 'yyyy-MM-dd')}">-</td>
-    </tr>
-    </tbody>
-</table>
+        <div class="search-box">
+            <input type="text"
+                   id="searchInput"
+                   class="form-control"
+                   placeholder="🔍 Caută după utilizator, email, plan, status..."/>
+        </div>
+
+        <div class="table-container">
+            <table class="table custom-table" id="subscriptionTable">
+                <thead>
+                <tr>
+                    <th class="sortable" onclick="sortTable(0)">
+                        <i class="bi bi-person-fill"></i> Utilizator
+                    </th>
+                    <th class="sortable" onclick="sortTable(1)">
+                        <i class="bi bi-envelope-fill"></i> Email
+                    </th>
+                    <th class="sortable" onclick="sortTable(2)">
+                        <i class="bi bi-calendar-fill"></i> Data Nașterii
+                    </th>
+                    <th class="sortable" onclick="sortTable(3)">
+                        <i class="bi bi-telephone-fill"></i> Telefon
+                    </th>
+                    <th class="sortable" onclick="sortTable(4)">
+                        <i class="bi bi-box-fill"></i> Plan
+                    </th>
+                    <th class="sortable" onclick="sortTable(5)">
+                        <i class="bi bi-currency-dollar"></i> Preț
+                    </th>
+                    <th class="sortable" onclick="sortTable(6)">
+                        <i class="bi bi-hdd-fill"></i> GB Incluși
+                    </th>
+                    <th class="sortable" onclick="sortTable(7)">
+                        <i class="bi bi-exclamation-triangle-fill"></i> Overage
+                    </th>
+                    <th class="sortable" onclick="sortTable(8)">
+                        <i class="bi bi-circle-fill"></i> Status
+                    </th>
+                    <th class="sortable" onclick="sortTable(9)">
+                        <i class="bi bi-plus-circle-fill"></i> Creat
+                    </th>
+                    <th class="sortable" onclick="sortTable(10)">
+                        <i class="bi bi-play-circle-fill"></i> Ciclu Start
+                    </th>
+                    <th class="sortable" onclick="sortTable(11)">
+                        <i class="bi bi-stop-circle-fill"></i> Ciclu Stop
+                    </th>
+                    <th>
+                        <i class="bi bi-gear-fill"></i> Acțiuni
+                    </th>
+                </tr>
+                </thead>
+                <tbody id="tableBody">
+                <tr th:each="r : ${rows}">
+                    <td th:text="${r.userName}">-</td>
+                    <td th:text="${r.email}">-</td>
+                    <td th:text="${#temporals.format(r.dateOfBirth, 'yyyy-MM-dd')}">-</td>
+                    <td th:text="${r.phoneNumber}">-</td>
+                    <td><strong th:text="${r.planName}">-</strong></td>
+                    <td><span class="text-success fw-bold" th:text="${r.price + ' RON'}">-</span></td>
+                    <td th:text="${r.includedGb + ' GB'}">-</td>
+                    <td th:text="${r.overagePrice + ' RON/GB'}">-</td>
+                    <td>
+                        <span class="status-badge"
+                              th:classappend="${'status-' + r.status}"
+                              th:text="${r.status}">ACTIVE</span>
+                    </td>
+                    <td th:text="${#temporals.format(r.createdAt, 'yyyy-MM-dd')}">-</td>
+                    <td th:text="${#temporals.format(r.currentCycleStart, 'yyyy-MM-dd')}">-</td>
+                    <td th:text="${#temporals.format(r.currentCycleStop, 'yyyy-MM-dd')}">-</td>
+                    <td>
+                        <form th:action="@{/subscriptions/update-status}" method="post" class="action-form">
+                            <input type="hidden" name="id" th:value="${r.subscriptionId}"/>
+                            <select name="status" class="form-select form-select-sm" aria-label="Select status">
+                                <option value="ACTIVE" th:selected="${r.status == 'ACTIVE'}">ACTIVE</option>
+                                <option value="SUSPENDED" th:selected="${r.status == 'SUSPENDED'}">SUSPENDED</option>
+                                <option value="CANCELED" th:selected="${r.status == 'CANCELED'}">CANCELED</option>
+                                <option value="EXPIRED" th:selected="${r.status == 'EXPIRED'}">EXPIRED</option>
+                            </select>
+                            <button type="submit" class="btn btn-update">
+                                <i class="bi bi-check-circle"></i> Update
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js}"></script>
+<script>
+    // Table sorting functionality
+    let sortDirection = {};
+
+    function sortTable(columnIndex) {
+        const table = document.getElementById('subscriptionTable');
+        const tbody = document.getElementById('tableBody');
+        const rows = Array.from(tbody.querySelectorAll('tr'));
+
+        // Toggle sort direction
+        sortDirection[columnIndex] = !sortDirection[columnIndex];
+        const ascending = sortDirection[columnIndex];
+
+        rows.sort((a, b) => {
+            let aValue = a.cells[columnIndex].textContent.trim();
+            let bValue = b.cells[columnIndex].textContent.trim();
+
+            // Handle numeric values
+            const aNum = parseFloat(aValue);
+            const bNum = parseFloat(bValue);
+            if (!isNaN(aNum) && !isNaN(bNum)) {
+                return ascending ? aNum - bNum : bNum - aNum;
+            }
+
+            // Handle date values
+            if (aValue.match(/^\d{4}-\d{2}-\d{2}$/)) {
+                const aDate = new Date(aValue);
+                const bDate = new Date(bValue);
+                return ascending ? aDate - bDate : bDate - aDate;
+            }
+
+            // Handle text values
+            return ascending ?
+                aValue.localeCompare(bValue) :
+                bValue.localeCompare(aValue);
+        });
+
+        // Reappend sorted rows
+        rows.forEach(row => tbody.appendChild(row));
+
+        // Update header indicators
+        const headers = table.querySelectorAll('thead th.sortable');
+        headers.forEach((header, index) => {
+            if (index === columnIndex) {
+                header.style.background = 'rgba(255,255,255,0.2)';
+            } else {
+                header.style.background = '';
+            }
+        });
+    }
+
+    // Search functionality
+    document.getElementById('searchInput').addEventListener('keyup', function() {
+        const searchTerm = this.value.toLowerCase();
+        const rows = document.querySelectorAll('#tableBody tr');
+
+        rows.forEach(row => {
+            const text = row.textContent.toLowerCase();
+            row.style.display = text.includes(searchTerm) ? '' : 'none';
+        });
+    });
+</script>
 </body>
 </html>

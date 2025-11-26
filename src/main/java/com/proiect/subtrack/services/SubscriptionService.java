@@ -3,9 +3,8 @@ package com.proiect.subtrack.services;
 import com.proiect.subtrack.domain.dto.SubscriptionUserViewDto;
 import com.proiect.subtrack.domain.entities.SubscriptionEntity;
 import com.proiect.subtrack.utils.SubscriptionStatus;
-import org.springframework.stereotype.Service;
+import com.proiect.subtrack.utils.errors.UserAlreadyExistsException;
 
-import java.time.LocalDate;
 import java.util.List;
 
 
@@ -17,4 +16,6 @@ public interface SubscriptionService {
 
     // opțional: fără filtru de status
      List<SubscriptionUserViewDto> getAllForToday();
+
+    void updateStatus(Long id, SubscriptionStatus status);
 }

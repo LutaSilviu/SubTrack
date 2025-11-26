@@ -1,6 +1,7 @@
 package com.proiect.subtrack.services;
 
 import com.proiect.subtrack.domain.entities.UserEntity;
+import org.apache.catalina.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -19,4 +20,6 @@ public interface UserService {
     boolean exists(Long id);
 
     UserEntity partialUpdate(Long id, UserEntity userEntity);
+
+    Optional<UserEntity> getUserByEmail(String email);
 }

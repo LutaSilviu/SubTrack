@@ -8,7 +8,6 @@ import com.proiect.subtrack.repositories.InvoiceRepository;
 import com.proiect.subtrack.repositories.SubscriptionRepository;
 import com.proiect.subtrack.repositories.UsageRecordRepository;
 import com.proiect.subtrack.services.BillingService;
-import com.proiect.subtrack.services.SubscriptionService;
 import com.proiect.subtrack.utils.InvoiceStatus;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +16,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 
 @Transactional
@@ -51,7 +49,7 @@ public class BillingServiceImpl implements BillingService {
         }
 
 
-        PlanEntity planEntity = subscriptionEntity.getPlanEntity();
+        PlanEntity planEntity = subscriptionEntity.getPlan();
 
         //the gb of the plan
         Integer includedGb = planEntity.getIncludedGb();

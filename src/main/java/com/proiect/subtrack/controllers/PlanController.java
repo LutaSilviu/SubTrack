@@ -2,8 +2,6 @@ package com.proiect.subtrack.controllers;
 
 
 import com.proiect.subtrack.domain.dto.PlanDto;
-import com.proiect.subtrack.domain.dto.SubscriptionDto;
-import com.proiect.subtrack.domain.entities.PlanEntity;
 import com.proiect.subtrack.mappers.impl.PlanMapperImpl;
 import com.proiect.subtrack.services.PlanService;
 import lombok.RequiredArgsConstructor;
@@ -14,16 +12,21 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/plans")
+@Tag(name = "Plans", description = "Plan management endpoints")
 public class PlanController {
 
     final private PlanService planService;
     final private PlanMapperImpl planMapper;
 
     @GetMapping
-    ResponseEntity<List<PlanDto>>  getAllPlans(){
+    @Operation(summary = "Get all plans", description = "Returns a list of all plans")
+    public ResponseEntity<List<PlanDto>>  getAllPlans(){
         List<PlanDto> all = planService.findAll().stream().map(planMapper::mapTo).toList();
 
         return ResponseEntity.ok(all);

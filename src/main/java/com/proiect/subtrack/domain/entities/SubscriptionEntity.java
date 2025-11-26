@@ -27,11 +27,11 @@ public class SubscriptionEntity {
 
     @ManyToOne
     @JoinColumn(name = "plan_id")
-    private PlanEntity planEntity;
+    private PlanEntity plan;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private UserEntity userEntity;
+    private UserEntity user;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
@@ -41,7 +41,7 @@ public class SubscriptionEntity {
     private LocalDate createdAt;
 
     @Column(name = "phone_number")
-    private Integer phoneNumber;
+    private String phoneNumber;
 
     @Column(name = "current_cycle_start")
     private LocalDate currentCycleStart;
