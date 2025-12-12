@@ -13,6 +13,25 @@ services:
       - "5432:5432"
     volumes:
       - db-data:/var/lib/postgresql/data
+    networks:
+      - subtrack-net
+
+  redis:
+    image: redis:7
+    container_name: subtrack-redis
+    restart: always
+    ports:
+      - "6379:6379"
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis-data:/data
+    networks:
+      - subtrack-net
 
 volumes:
   db-data:
+  redis-data:
+
+networks:
+  subtrack-net:
+    driver: bridge

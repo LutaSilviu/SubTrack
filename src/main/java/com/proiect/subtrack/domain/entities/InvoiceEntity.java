@@ -27,7 +27,7 @@ public class InvoiceEntity {
 
     @ManyToOne
     @JoinColumn(name = "subscription_id")
-    private SubscriptionEntity subscriptionEntity;
+    private SubscriptionEntity subscription;
 
     @Column(name = "base_price")
     private Double basePrice;

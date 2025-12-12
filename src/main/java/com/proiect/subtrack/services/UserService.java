@@ -1,14 +1,11 @@
 package com.proiect.subtrack.services;
 
 import com.proiect.subtrack.domain.entities.UserEntity;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-
+import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
-    Page<UserEntity> getAll(Pageable pageable);
+    List<UserEntity> getAll();
 
     UserEntity save(UserEntity userEntity);
 
@@ -19,4 +16,6 @@ public interface UserService {
     boolean exists(Long id);
 
     UserEntity partialUpdate(Long id, UserEntity userEntity);
+
+    Optional<UserEntity> getUserByEmail(String email);
 }

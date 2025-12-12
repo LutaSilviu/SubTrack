@@ -16,7 +16,7 @@ public class UsageRecordDto {
 
     private Long recordId;
 
-    private SubscriptionDto subscriptionDto;
+    private SubscriptionDto subscription;
 
     private Double amountGb;
 

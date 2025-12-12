@@ -8,7 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Data
 @Builder
@@ -19,15 +18,15 @@ public class SubscriptionDto {
 
     private Long subscriptionId;
 
-    private PlanDto planDto;
+    private PlanDto plan;
 
-    private UserDto userDto;
+    private UserDto user;
 
     private SubscriptionStatus status;
 
     private LocalDate createdAt;
 
-    private Integer phoneNumber;
+    private String phoneNumber;
 
     private LocalDate currentCycleStart;
 

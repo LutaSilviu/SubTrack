@@ -1,36 +1,50 @@
 package com.proiect.subtrack.services.impl;
 
 import com.proiect.subtrack.domain.entities.PlanEntity;
-import com.proiect.subtrack.domain.entities.UserEntity;
 import com.proiect.subtrack.repositories.PlanRepository;
 import com.proiect.subtrack.services.PlanService;
+import com.proiect.subtrack.utils.validation.ValidationUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.StreamSupport;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class PlanServiceImpl implements PlanService {
 
     private final PlanRepository planRepository;
+    private final ValidationUtils validationUtils;
 
     @Override
+    @CachePut(value = "plans", key = "#planEntity.planId")
+    @CacheEvict(value = "allPlans", allEntries = true)
     public PlanEntity save(PlanEntity planEntity) {
-        return planRepository.save(planEntity);
+        log.info("Saving plan: {}", planEntity.getName());
+
+        // Validate plan data
+        validationUtils.validatePlanName(planEntity.getName());
+        validationUtils.validatePrice(planEntity.getPrice());
+        validationUtils.validateGigabytes(planEntity.getIncludedGb());
+        validationUtils.validatePrice(planEntity.getOveragePrice());
+
+        PlanEntity saved = planRepository.save(planEntity);
+        log.debug("Plan saved successfully with ID: {}", saved.getPlanId());
+        return saved;
     }
 
     @Override
-    public Page<PlanEntity> findAll(Pageable pageable) {
-        return  planRepository.findAll(pageable);
-    }
-
-    @Override
+    @Cacheable(value = "allPlans", key = "'all'")
     public List<PlanEntity> findAll() {
-        return StreamSupport.stream(planRepository.findAll().spliterator(),false).toList();
+        log.debug("Fetching all plans");
+        List<PlanEntity> plans = planRepository.findAll();
+        log.info("Retrieved {} plans", plans.size());
+        return plans;
     }
 
 }

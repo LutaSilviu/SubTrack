@@ -19,7 +19,7 @@ public class InvoiceDto {
 
     private Long invoiceId;
 
-    private SubscriptionDto subscriptionEntity;
+    private SubscriptionDto subscription;
 
     private Double basePrice;
 

@@ -1,85 +1,255 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="ro">
 <head>
     <meta charset="UTF-8">
-    <title>Create Plan</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Creează Plan - SubTrack</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"/>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            max-width: 600px;
-            margin: 40px auto;
-            background: #f8f8f8;
-            padding: 20px;
-            border-radius: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 2rem 0;
         }
-
-        h2 {
+        .form-container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .form-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
             text-align: center;
         }
-
-        form label {
-            display: block;
-            margin-top: 10px;
+        .form-header h2 {
+            margin: 0;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
         }
-
-        input, textarea, select, button {
-            width: 100%;
-            padding: 8px;
-            margin-top: 5px;
-            box-sizing: border-box;
+        .form-body {
+            padding: 2rem;
         }
-
-        button {
-            background-color: #007bff;
-            color: white;
+        .form-label {
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .form-control, .form-select {
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 0.75rem;
+            transition: all 0.3s;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+        .btn-save {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border: none;
-            cursor: pointer;
-            margin-top: 20px;
-            border-radius: 5px;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-weight: 600;
+            width: 100%;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
         }
-
-        button:hover {
-            background-color: #0056b3;
+        .btn-save:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
         }
-
-        a {
-            display: inline-block;
-            margin-top: 15px;
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #667eea;
             text-decoration: none;
-            color: #007bff;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+        .btn-back:hover {
+            background: #f8f9ff;
+            color: #764ba2;
+        }
+        .input-icon {
+            position: relative;
+        }
+        .input-icon i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #667eea;
+        }
+        .input-icon input {
+            padding-left: 2.5rem;
+        }
+        .form-section {
+            background: #f8f9ff;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+        }
+        .form-section-title {
+            color: #667eea;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
     </style>
 </head>
 <body>
 
-<h2>Create New Plan</h2>
+<div class="form-container">
+    <div class="form-header">
+        <h2>
+            <i class="bi bi-plus-circle-fill"></i>
+            Creează Plan Nou
+        </h2>
+        <p class="mb-0 mt-2">Adaugă un nou plan de abonament în sistem</p>
+    </div>
 
-<form th:action="@{/plans/create}" th:object="${plan}" method="post">
-    <label for="name">Name:</label>
-    <input type="text" id="name" th:field="*{name}" required/>
+    <div class="form-body">
+        <a th:href="@{/plans/view}" class="btn-back mb-3">
+            <i class="bi bi-arrow-left-circle-fill"></i>
+            Înapoi la Planuri
+        </a>
 
-    <label for="price">Price (RON):</label>
-    <input type="number" step="0.01" id="price" th:field="*{price}" required/>
+        <form th:action="@{/plans/create}" th:object="${plan}" method="post">
 
-    <label for="included_gb">Included GB:</label>
-    <input type="number" id="included_gb" th:field="*{included_gb}" required/>
+            <div class="form-section">
+                <div class="form-section-title">
+                    <i class="bi bi-info-circle-fill"></i>
+                    Informații Generale
+                </div>
 
-    <label for="overage_price">Overage Price (RON/GB):</label>
-    <input type="number" step="0.01" id="overage_price" th:field="*{overage_price}" required/>
+                <div class="input-group">
+                    <label for="name" class="form-label">
+                        <i class="bi bi-tag-fill"></i>
+                        Nume Plan
+                    </label>
+                    <input type="text"
+                           class="form-control"
+                           id="name"
+                           th:field="*{name}"
+                           placeholder="Ex: Premium, Standard, Basic"
+                           required/>
+                </div>
 
-    <label for="created_at">Created At:</label>
-    <input type="date" id="created_at" th:field="*{created_at}" />
+                <div class="input-group">
+                    <label for="active" class="form-label">
+                        <i class="bi bi-toggle-on"></i>
+                        Status Plan
+                    </label>
+                    <select id="active" class="form-select" th:field="*{active}">
+                        <option th:value="true" selected>✓ Activ</option>
+                        <option th:value="false">✗ Inactiv</option>
+                    </select>
+                </div>
+            </div>
 
-    <label for="active">Is Active:</label>
-    <select id="active" th:field="*{active}">
-        <option th:value="true">Active</option>
-        <option th:value="false">Inactive</option>
-    </select>
+            <div class="form-section">
+                <div class="form-section-title">
+                    <i class="bi bi-currency-dollar"></i>
+                    Prețuri
+                </div>
 
-    <button type="submit">Save</button>
-</form>
+                <div class="input-group">
+                    <label for="price" class="form-label">
+                        <i class="bi bi-cash-coin"></i>
+                        Preț Lunar (RON)
+                    </label>
+                    <input type="number"
+                           step="0.01"
+                           class="form-control"
+                           id="price"
+                           th:field="*{price}"
+                           placeholder="Ex: 49.99"
+                           required/>
+                </div>
 
-<a th:href="@{/plans}">← Back to Plans</a>
+                <div class="input-group">
+                    <label for="overage_price" class="form-label">
+                        <i class="bi bi-exclamation-triangle-fill"></i>
+                        Preț Overage (RON/GB)
+                    </label>
+                    <input type="number"
+                           step="0.01"
+                           class="form-control"
+                           id="overage_price"
+                           th:field="*{overagePrice}"
+                           placeholder="Ex: 5.00"
+                           required/>
+                    <small class="text-muted">Costul suplimentar per GB peste limita inclusă</small>
+                </div>
+            </div>
 
+            <div class="form-section">
+                <div class="form-section-title">
+                    <i class="bi bi-hdd-fill"></i>
+                    Date Incluse
+                </div>
+
+                <div class="input-group">
+                    <label for="included_gb" class="form-label">
+                        <i class="bi bi-database-fill"></i>
+                        GB Incluși
+                    </label>
+                    <input type="number"
+                           class="form-control"
+                           id="included_gb"
+                           th:field="*{includedGb}"
+                           placeholder="Ex: 50"
+                           required/>
+                    <small class="text-muted">Cantitatea de date inclusă lunar</small>
+                </div>
+
+                <div class="input-group">
+                    <label for="created_at" class="form-label">
+                        <i class="bi bi-calendar-fill"></i>
+                        Data Creării
+                    </label>
+                    <input type="date"
+                           class="form-control"
+                           id="created_at"
+                           th:field="*{createdAt}" />
+                    <small class="text-muted">Lasă gol pentru data curentă</small>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-save">
+                <i class="bi bi-check-circle-fill"></i>
+                Salvează Planul
+            </button>
+        </form>
+    </div>
+</div>
+
+<script th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js}"></script>
 </body>
 </html>
