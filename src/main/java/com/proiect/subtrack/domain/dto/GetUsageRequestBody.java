@@ -6,20 +6,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UsageRecordDto {
+public class GetUsageRequestBody {
 
-    private Long recordId;
+    Long subscriptionId;
 
-    private SubscriptionDto subscription;
+    LocalDate dateStart;
 
-    private Double amountGb;
-
-    private LocalDate occurredAt;
-
+    LocalDate dateEnd;
 }

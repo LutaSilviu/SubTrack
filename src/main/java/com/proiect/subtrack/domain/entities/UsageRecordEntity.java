@@ -26,7 +26,7 @@ public class UsageRecordEntity {
 
     @ManyToOne
     @JoinColumn(name = "subscription_id")
-    private SubscriptionEntity subscriptionEntity;
+    private SubscriptionEntity subscription;
 
     @Column(name = "amount_gb")
     private Double amountGb;

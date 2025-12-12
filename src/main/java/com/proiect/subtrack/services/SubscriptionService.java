@@ -3,7 +3,6 @@ package com.proiect.subtrack.services;
 import com.proiect.subtrack.domain.dto.SubscriptionUserViewDto;
 import com.proiect.subtrack.domain.entities.SubscriptionEntity;
 import com.proiect.subtrack.utils.SubscriptionStatus;
-import com.proiect.subtrack.utils.errors.UserAlreadyExistsException;
 
 import java.util.List;
 
@@ -18,4 +17,10 @@ public interface SubscriptionService {
      List<SubscriptionUserViewDto> getAllForToday();
 
     void updateStatus(Long id, SubscriptionStatus status);
+
+    List<SubscriptionEntity> getSubscriptionsForUser(Long userId);
+
+    SubscriptionEntity getSubscriptionById(Long subscriptionId);
+
+    SubscriptionEntity updateSubscription(SubscriptionEntity subscriptionEntity);
 }

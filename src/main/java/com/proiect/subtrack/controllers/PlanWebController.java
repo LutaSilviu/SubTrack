@@ -5,6 +5,7 @@ import com.proiect.subtrack.domain.entities.PlanEntity;
 import com.proiect.subtrack.mappers.impl.PlanMapperImpl;
 import com.proiect.subtrack.services.PlanService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+@Slf4j
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/plans")
@@ -28,6 +30,7 @@ public class PlanWebController {
     @GetMapping("/view")
     @Operation(summary = "View plans", description = "Returns the plans index view")
     public String index(Model model) {
+        log.debug("Rendering plans index view");
         model.addAttribute("plans", planService.findAll());
         return "plans/index";
     }
@@ -37,6 +40,7 @@ public class PlanWebController {
     @GetMapping("/create")
     @Operation(summary = "Create plan form", description = "Returns the create plan form view")
     public String createForm(Model model) {
+        log.debug("Rendering create plan form");
         model.addAttribute("plan", new PlanDto());
         return "plans/create";
     }
@@ -44,8 +48,10 @@ public class PlanWebController {
     @PostMapping("/create")
     @Operation(summary = "Submit create plan", description = "Creates a plan from form data")
     public String createSubmit(@ModelAttribute PlanDto planDto) {
+        log.info("Creating plan from form submission: {}", planDto.getName());
         PlanEntity plan = planMapper.mapFrom(planDto);
         planService.save(plan);
+        log.debug("Plan created successfully, redirecting to plans view");
         return "redirect:/plans/view";
     }
 

@@ -29,7 +29,7 @@ public class SimulateConsumption {
             UsageRecordEntity usageRecordEntity =  UsageRecordEntity.builder()
                     .amountGb(Math.random())
                     .occurredAt(LocalDate.now())
-                    .subscriptionEntity(entry)
+                    .subscription(entry)
                     .build();
 
             usageRecordRepository.save(usageRecordEntity);
