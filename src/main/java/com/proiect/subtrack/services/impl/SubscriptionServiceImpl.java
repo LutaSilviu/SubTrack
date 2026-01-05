@@ -9,14 +9,11 @@ import com.proiect.subtrack.services.UserService;
 import com.proiect.subtrack.utils.SubscriptionStatus;
 import com.proiect.subtrack.utils.errors.SubscriptionNotFoundError;
 import com.proiect.subtrack.utils.errors.UserAlreadyExistsException;
-import com.proiect.subtrack.utils.validation.ValidationUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,24 +29,16 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
     final private SubscriptionRepository subscriptionRepository;
     final private UserService userService;
-    final private ValidationUtils validationUtils;
 
     @Override
     @Transactional
     @CachePut(value = "subscriptions", key = "#subscriptionEntity.subscriptionId")
-    @CacheEvict(value = "userSubscriptions", allEntries = true)
+    @CacheEvict(value = {"userSubscriptions", "currentSubscriptions", "todaySubscriptions"}, allEntries = true)
     public SubscriptionEntity save(SubscriptionEntity subscriptionEntity) {
         log.info("Attempting to save subscription for phone number: {}", subscriptionEntity.getPhoneNumber());
 
-        // Validate phone number
-        validationUtils.validatePhoneNumber(subscriptionEntity.getPhoneNumber());
-
         UserEntity entityUser = subscriptionEntity.getUser();
 
-        // Validate user data
-        validationUtils.validateName(entityUser.getName());
-        validationUtils.validateEmail(entityUser.getEmail());
-        validationUtils.validateAddress(entityUser.getAddress());
 
         if(!subscriptionRepository.getSubscriptionEntitiesByPhoneNumber(subscriptionEntity.getPhoneNumber()).isEmpty())
         {
@@ -87,7 +76,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
-    @CacheEvict(value = {"subscriptions", "userSubscriptions"}, allEntries = true)
+    @CacheEvict(value = {"userLogins","subscriptions", "userSubscriptions", "currentSubscriptions", "todaySubscriptions"}, allEntries = true)
     public void updateStatus(Long id, SubscriptionStatus status) {
         log.info("Updating status for subscription ID {} to {}", id, status);
         subscriptionRepository.updateStatus(id, status);
@@ -121,7 +110,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
     @Override
     @CachePut(value = "subscriptions", key = "#subscriptionEntity.subscriptionId")
-    @CacheEvict(value = "userSubscriptions", allEntries = true)
+    @CacheEvict(value = {"userSubscriptions", "currentSubscriptions", "todaySubscriptions"}, allEntries = true)
     public SubscriptionEntity updateSubscription(SubscriptionEntity subscriptionEntity) {
         log.info("Updating subscription with ID: {}", subscriptionEntity.getSubscriptionId());
         if(!subscriptionRepository.existsById(subscriptionEntity.getSubscriptionId())) {

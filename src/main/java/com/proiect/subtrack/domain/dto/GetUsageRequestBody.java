@@ -1,5 +1,6 @@
 package com.proiect.subtrack.domain.dto;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,9 +14,12 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class GetUsageRequestBody {
 
-    Long subscriptionId;
+    @NotNull(message = "Subscription ID is required")
+    private Long subscriptionId;
 
-    LocalDate dateStart;
+    @NotNull(message = "Start date is required")
+    private LocalDate dateStart;
 
-    LocalDate dateEnd;
+    @NotNull(message = "End date is required")
+    private LocalDate dateEnd;
 }

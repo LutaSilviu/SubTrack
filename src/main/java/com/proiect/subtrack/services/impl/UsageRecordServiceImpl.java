@@ -5,7 +5,6 @@ import com.proiect.subtrack.domain.entities.UsageRecordEntity;
 import com.proiect.subtrack.repositories.UsageRecordRepository;
 import com.proiect.subtrack.services.SubscriptionService;
 import com.proiect.subtrack.services.UsageRecordService;
-import com.proiect.subtrack.utils.validation.ValidationUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
@@ -23,7 +22,6 @@ public class UsageRecordServiceImpl implements UsageRecordService {
 
     private final UsageRecordRepository usageRecordRepository;
     private final SubscriptionService subscriptionService;
-    private final ValidationUtils validationUtils;
 
     @Override
     @Transactional
@@ -44,12 +42,10 @@ public class UsageRecordServiceImpl implements UsageRecordService {
 
     @Override
     @Transactional
-    @CacheEvict(value = "usageRecordsList", key = "#id")
+    @CacheEvict(value = {"usageRecordsList", "subscriptionInvoices"}, key = "#id")
     public UsageRecordEntity addUsage(Long id, Double consumedGb) {
         log.info("Adding usage record for subscription ID: {}, consumed: {} GB", id, consumedGb);
 
-        // Validate usage GB
-        validationUtils.validateUsageGb(consumedGb);
 
         UsageRecordEntity usageRecordEntity = UsageRecordEntity
                 .builder()

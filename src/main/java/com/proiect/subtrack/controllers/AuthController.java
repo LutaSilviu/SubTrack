@@ -1,5 +1,6 @@
 package com.proiect.subtrack.controllers;
 
+import com.proiect.subtrack.domain.dto.AuthResponse;
 import com.proiect.subtrack.domain.dto.UserDto;
 import com.proiect.subtrack.domain.entities.UserEntity;
 import com.proiect.subtrack.mappers.impl.UserMapperImpl;
@@ -25,20 +26,13 @@ import java.util.Optional;
 public class AuthController {
 
     final private AuthService authService;
-    final private UserMapperImpl userMapper;
-
 
     @PostMapping("/{email}")
     @Operation(summary = "Get user by email", description = "Returns a single user")
-    public ResponseEntity<UserDto> login(@PathVariable("email") String email){
+    public ResponseEntity<UserDto> login(@PathVariable String email){
         log.info("Login request received for email: {}", email);
-        Optional<UserEntity> userEntity = authService.login(email);
-        return userEntity.map(userEntity1 -> {
-            log.info("Login successful for email: {}", email);
-            return new ResponseEntity<>(userMapper.mapTo(userEntity1), HttpStatus.OK);
-        }).orElseGet(() -> {
-            log.warn("Login failed - user not found for email: {}", email);
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        });
+        UserDto userDto = authService.login(email);
+
+        return new ResponseEntity<>(userDto, HttpStatus.OK);
     }
 }

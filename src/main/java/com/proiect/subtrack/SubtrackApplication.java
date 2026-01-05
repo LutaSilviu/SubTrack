@@ -2,9 +2,11 @@ package com.proiect.subtrack;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @EnableScheduling
+@EnableCaching
 @SpringBootApplication
 public class SubtrackApplication {
 
@@ -15,8 +17,6 @@ public class SubtrackApplication {
 }
 //http://localhost:8080/swagger-ui/index.html
 
-// Clear Redis cache if data appears stale after DB changes:
-// docker exec -it subtrack-redis redis-cli FLUSHALL
-
-// Cache TTL: 2 minutes (120000ms)
+// Using simple in-memory cache (ConcurrentMapCacheManager)
+// Cache is automatically cleared on application restart
 // Cache is automatically cleared on CREATE/UPDATE/DELETE operations

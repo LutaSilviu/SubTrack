@@ -24,7 +24,6 @@ public class SubscriptionViewController {
 
     private final SubscriptionService service;
 
-
     @GetMapping("/view")
     @Operation(summary = "View current subscriptions", description = "Returns the subscriptions table view")
     public String listCurrent(Model model) {

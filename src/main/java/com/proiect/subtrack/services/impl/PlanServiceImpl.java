@@ -3,7 +3,6 @@ package com.proiect.subtrack.services.impl;
 import com.proiect.subtrack.domain.entities.PlanEntity;
 import com.proiect.subtrack.repositories.PlanRepository;
 import com.proiect.subtrack.services.PlanService;
-import com.proiect.subtrack.utils.validation.ValidationUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
@@ -19,19 +18,12 @@ import java.util.List;
 public class PlanServiceImpl implements PlanService {
 
     private final PlanRepository planRepository;
-    private final ValidationUtils validationUtils;
 
     @Override
     @CachePut(value = "plans", key = "#planEntity.planId")
     @CacheEvict(value = "allPlans", allEntries = true)
     public PlanEntity save(PlanEntity planEntity) {
         log.info("Saving plan: {}", planEntity.getName());
-
-        // Validate plan data
-        validationUtils.validatePlanName(planEntity.getName());
-        validationUtils.validatePrice(planEntity.getPrice());
-        validationUtils.validateGigabytes(planEntity.getIncludedGb());
-        validationUtils.validatePrice(planEntity.getOveragePrice());
 
         PlanEntity saved = planRepository.save(planEntity);
         log.debug("Plan saved successfully with ID: {}", saved.getPlanId());

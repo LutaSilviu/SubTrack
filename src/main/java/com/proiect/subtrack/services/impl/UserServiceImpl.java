@@ -3,7 +3,6 @@ package com.proiect.subtrack.services.impl;
 import com.proiect.subtrack.domain.entities.UserEntity;
 import com.proiect.subtrack.repositories.UserRepository;
 import com.proiect.subtrack.services.UserService;
-import com.proiect.subtrack.utils.validation.ValidationUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
@@ -21,7 +20,6 @@ import java.util.stream.StreamSupport;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final ValidationUtils validationUtils;
 
 
     @Override
@@ -34,13 +32,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @CachePut(value = "users", key = "#userEntity.userId")
+    @CacheEvict(value = "userLogins", allEntries = true)
     public UserEntity save(UserEntity userEntity) {
         log.info("Saving user: {}", userEntity.getEmail());
 
-        // Validate user data
-        validationUtils.validateName(userEntity.getName());
-        validationUtils.validateEmail(userEntity.getEmail());
-        validationUtils.validateAddress(userEntity.getAddress());
+
+        Optional<UserEntity> userByEmail = userRepository.findByEmail(userEntity.getEmail());
+        if(userByEmail.isPresent()){
+            return userByEmail.get();
+        }
 
         UserEntity saved = userRepository.save(userEntity);
         log.debug("User saved successfully with ID: {}", saved.getUserId());
@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @CacheEvict(value = "users", key = "#id")
+    @CacheEvict(value = {"users", "userLogins"}, allEntries = true)
     public void delete(Long id) {
         log.info("Deleting user with ID: {}", id);
         userRepository.deleteById(id);
@@ -105,18 +105,7 @@ public class UserServiceImpl implements UserService {
         });
     }
 
-    @Override
-    @Cacheable(value = "usersByEmail", key = "#email", unless = "#result == null or !#result.isPresent()")
-    public Optional<UserEntity> getUserByEmail(String email) {
-        log.debug("Fetching user by email: {}", email);
-        Optional<UserEntity> user = userRepository.findByEmail(email);
-        if (user.isPresent()) {
-            log.debug("User found with email: {}", email);
-        } else {
-            log.warn("No user found with email: {}", email);
-        }
-        return user;
-    }
+
 
 
 }

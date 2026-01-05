@@ -17,5 +17,4 @@ public interface UserService {
 
     UserEntity partialUpdate(Long id, UserEntity userEntity);
 
-    Optional<UserEntity> getUserByEmail(String email);
 }

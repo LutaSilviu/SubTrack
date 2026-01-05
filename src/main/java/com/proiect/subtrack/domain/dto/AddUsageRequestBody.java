@@ -1,5 +1,7 @@
 package com.proiect.subtrack.domain.dto;
 
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,7 +13,10 @@ import lombok.RequiredArgsConstructor;
 @Builder
 public class AddUsageRequestBody {
 
-    Long id;
+    @NotNull(message = "Subscription ID is required")
+    private Long id;
 
-    Double usageGb;
+    @NotNull(message = "Usage amount is required")
+    @Positive(message = "Usage must be positive")
+    private Double usageGb;
 }
