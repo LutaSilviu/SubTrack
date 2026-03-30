@@ -25,11 +25,10 @@ Utilizatorii pot vizualiza, adăuga, modifica și șterge informații printr-o i
 
 ![Home](./screenshots/home.bmp)
 
-### Creare / Editare
-
+### Login
 ![Login](./screenshots/login.bmp)
 
-### Detalii entitate
+### Planuri
 
 ![Details](./screenshots/plans.bmp)
 
