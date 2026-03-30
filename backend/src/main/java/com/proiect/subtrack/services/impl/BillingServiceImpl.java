@@ -38,7 +38,8 @@ public class BillingServiceImpl implements BillingService {
     public void calculateInvoicePerSubscription(SubscriptionEntity subscriptionEntity) {
         log.info("Calculating invoice for subscription ID: {}", subscriptionEntity.getSubscriptionId());
 
-        List<UsageRecordEntity> usageRecordEntityList = usageRecordRepository.getUsageRecordEntitiesBySubscriptionAndOccurredAtIsBetween(subscriptionEntity,subscriptionEntity.getCurrentCycleStart(),subscriptionEntity.getCurrentCycleStop());
+        List<UsageRecordEntity> usageRecordEntityList = usageRecordRepository.getUsageRecordEntitiesBySubscriptionAndOccurredAtIsBetween(
+                subscriptionEntity,subscriptionEntity.getCurrentCycleStart(),subscriptionEntity.getCurrentCycleStop());
 
         Double gbConsumed = 0D;
 

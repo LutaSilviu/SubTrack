@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -52,6 +53,15 @@ public class PlanWebController {
         PlanEntity plan = planMapper.mapFrom(planDto);
         planService.save(plan);
         log.debug("Plan created successfully, redirecting to plans view");
+        return "redirect:/plans/view";
+    }
+
+    @PostMapping("/toggle-status")
+    @Operation(summary = "Toggle plan active status", description = "Toggle the active status of a plan by id")
+    public String toggleStatus(@RequestParam("planId") Long planId) {
+        log.info("Toggling status for plan ID: {}", planId);
+        planService.toggleActiveStatus(planId);
+        log.debug("Status toggled successfully, redirecting to plans view");
         return "redirect:/plans/view";
     }
 

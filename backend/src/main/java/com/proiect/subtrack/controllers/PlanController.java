@@ -28,12 +28,11 @@ public class PlanController {
     final private PlanMapperImpl planMapper;
 
     @GetMapping
-    @Operation(summary = "Get all plans", description = "Returns a list of all plans")
+    @Operation(summary = "Get all active plans", description = "Returns a list of all active plans")
     public ResponseEntity<@NonNull List<PlanDto>>  getAllPlans(){
         log.debug("Fetching all plans");
-        List<PlanDto> all = planService.findAll().stream().map(planMapper::mapTo).toList();
+        List<PlanDto> all = planService.findAllActive().stream().map(planMapper::mapTo).toList();
         log.info("Retrieved {} plans", all.size());
         return ResponseEntity.ok(all);
     }
-
 }

@@ -21,6 +21,7 @@ public class CacheConfig {
                 "userSubscriptions",
                 "plans",
                 "allPlans",
+                "allActivePlans",
                 "usageRecords",
                 "usageRecordsList",
                 "invoices",
